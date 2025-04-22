@@ -79,11 +79,45 @@ class ProblemSolutions {
 
         // Build directed graph's adjacency list
         ArrayList<Integer>[] adj = getAdjList(numExams, 
-                                        prerequisites); 
+                                        prerequisites);
 
-        // ADD YOUR CODE HERE - ADD YOUR NAME / SECTION AT TOP OF FILE
-        return false;
+        // Track how many prerequisites each exam has
+        int[] prereqCounts = new int[numNodes];
+        for (int node = 0; node < numNodes; node++) {
+            for (int adjacent : adj[node]) {
+                prereqCounts[adjacent]++;
+            }
+        }
 
+        // Queue to collect exams that are ready to be taken and have no prerequisites
+        Queue<Integer> readyExams = new LinkedList<>();
+        for (int i = 0; i < numNodes; i++) {
+            if (prereqCounts[i] == 0) {
+                readyExams.add(i);
+            }
+        }
+
+        // Counter for how many exams we can complete
+        int examsTaken = 0;
+
+        // Take exams that are ready and check if that unlocks other exams
+        while (!readyExams.isEmpty()) {
+            int exam = readyExams.poll();
+            examsTaken++;
+
+            // For each exam that depends on the current one
+            for (int nextExam : adj[exam]) {
+                // Decrease its prerequisite count
+                prereqCounts[nextExam]--;
+
+                // If it now has no remaining prerequisites, it's ready to be taken
+                if (prereqCounts[nextExam] == 0) {
+                    readyExams.add(nextExam);
+                }
+            }
+        }
+        // If we successfully completed all exams, return true, otherwise there must be a cycle in graph.
+        return examsTaken == numNodes;
     }
 
 
