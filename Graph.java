@@ -103,8 +103,33 @@ public class Graph {
    */
   
   public int findRoot() {
+    // Create an array to keep track of the vertices that have incoming edges
+    boolean[] hasIncoming = new boolean[numVertices];
 
-    // ADD YOUR CODE HERE - DO NOT FORGET TO ADD YOUR NAME/SECTION AT TOP OF FILE
-    return -1;
+    // Loop through all adjacency lists to identify vertices with incoming edges
+    for (int i = 0; i < numVertices; i++) {
+      for (Integer neighbor : adjListArr[i]) {
+        hasIncoming[neighbor] = true;
+      }
+    }
+
+    // Look for vertices with zero incoming edges
+    int count = 0;
+    int possibleRoot = -1;
+
+    // Loop through each vertex to see if it could be a root (no incoming edge)
+    for (int i = 0; i < numVertices; i++) {
+      if (!hasIncoming[i]) {
+        count++;
+        possibleRoot = i;
+      }
+    }
+
+    // If there's exactly one node with no incoming edges, that’s our root, return value
+    if (count == 1) {
+      return vertexValues.get(possibleRoot);
+    } else {
+      return -1;
+    }
   } 
 }
