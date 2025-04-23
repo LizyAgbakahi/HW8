@@ -1,6 +1,6 @@
 /******************************************************************
  *
- *   ADD YOUR NAME / SECTION NUMBER HERE
+ *   Lizy Agbakahi / COMP 400C Spring 2025
  *
  *   This java file contains the problem solutions of canFinish and
  *   numGroups methods.
