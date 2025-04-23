@@ -224,9 +224,38 @@ class ProblemSolutions {
             }
         }
 
-        // YOUR CODE GOES HERE - you can add helper methods, you do not need
-        // to put all code in this method.
-        return -1;
-    }
+        //Create a visited array
+        boolean[] visited = new boolean[numNodes];
 
+        // Count distinct connected components
+        int componentCount = 0;
+        for(i = 0; i < numNodes; i++) {
+            if(!visited[i]) {
+                componentCount++;
+                dfs(i, graph, visited);
+            }
+        }
+        return componentCount;
+
+    }
+    // DFS helper method that performs a depth first search traversal of a graph starting from a specified node
+    private void dfs(int currentNode, Map<Integer, List<Integer>> graph, boolean[] visited) {
+        // Mark current node as visited
+        visited[currentNode] = true;
+
+        // Check if current node exists in the graph
+        if (graph.containsKey((currentNode))) {
+            // Get all neighbors of the current node
+            List<Integer> neighbors = graph.get(currentNode);
+
+            // For each neighbor of the current node
+            for (int adjacentNode : neighbors) {
+                // If this neighbor hasn't been visited yet
+                if (!visited[adjacentNode]) {
+                    // Recursively perform DFS on that unvisited neighbor
+                    dfs(adjacentNode, graph, visited);
+                }
+            }
+        }
+    }
 }
